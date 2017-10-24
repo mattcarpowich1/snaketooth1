@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 
 app.post('/api', (req, res) => {
 	console.log(req.body);
-	res.json({ hey: 'Matt' });
+	res.json({ "You're": "fucked"});
 })
 
 app.listen(PORT, () => {

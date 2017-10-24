@@ -15,7 +15,10 @@ class App extends Component {
       fadein: '',
       name: '',
       password: '',
-      passwordConfirm: ''
+      passwordConfirm: '',
+      warning: '',
+      nameCheck: '',
+      passCheck: ''
     }
     this.registerClick = this.registerClick.bind(this)
     this.updateName = this.updateName.bind(this)
@@ -41,22 +44,75 @@ class App extends Component {
     this.setState({
       name: e.target.value
     })
+    if (e.target.value.length < 6) {
+      this.setState({
+        nameCheck: 'Name must be at least 6 characters'
+      })
+    } else {
+      this.setState({
+        nameCheck: ''
+      })
+    }
   }
 
   updatePassword(e) {
     this.setState({
       password: e.target.value
     })
+    if (e.target.value.length < 8) {
+      this.setState({
+        passCheck: 'Password must be at least 8 characters'
+      })
+    } else {
+      this.setState({
+        passCheck: ''
+      })
+    }
+    if (e.target.value !== this.state.passwordConfirm) {
+      this.setState({
+        warning: 'Passwords must match'
+      })
+    } else {
+      this.setState({
+        warning: ''
+      })
+    }
   }
 
   updateConfirm(e) {
     this.setState({
       passwordConfirm: e.target.value
     })
+    if (this.state.password !== e.target.value) {
+      this.setState({
+        warning: 'Passwords must match'
+      })
+    } else {
+      this.setState({
+        warning: ''
+      })
+    }
   }
 
   submit() {
-    
+    if ((this.state.name.length >= 6) &&
+       (this.state.password.length >= 8) &&
+       (this.state.password === this.state.passwordConfirm)) {
+      let data = {
+        name: this.state.name,
+        password: this.state.password
+      }
+      fetch('/api',{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      })  
+        .then(() => console.log("Success"))
+        .catch((err) => console.log(err))
+    }
   }
 
   render() {
@@ -81,11 +137,14 @@ class App extends Component {
             <Form fadeIn={this.state.fadein}
                   namehandler={this.updateName} 
                   passHandler={this.updatePassword} 
-                  confHandler={this.updateConfirm} />
+                  confHandler={this.updateConfirm} 
+                  warning={this.state.warning}
+                  nameCheck={this.state.nameCheck} 
+                  passCheck={this.state.passCheck} />
           </div>
           <Button 
             text={'Connect to WiFi Now'}
-            actionHandler={this.submit}/>
+            actionHandler={this.submit} />
         </div>
       )
     }

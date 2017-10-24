@@ -12,7 +12,8 @@ class Form extends Component {
 	          	id="name" 
 	          	type="text" 
 	          	className="validate"
-	          	onChange={this.props.nameHandler} />
+	          	onChange={this.props.namehandler} />
+	          	<small>{this.props.nameCheck}</small>
 	        </div>
 	        <div className="input-field col s12">
 	        	<label htmlFor="pass">Enter Password</label><br />
@@ -21,6 +22,7 @@ class Form extends Component {
 	          	type="password" 
 	          	className="validate"
 	          	onChange={this.props.passHandler} />
+	          	<small>{this.props.passCheck}</small>
 	        </div>
 	        <div className="input-field col s12">
 	        	<label htmlFor="passconf">Confirm Password</label><br />
@@ -30,6 +32,7 @@ class Form extends Component {
 	          	type="password" 
 	          	className="validate"
 	          	onChange={this.props.confHandler} />
+	          	<small>{this.props.warning}</small>
 	        </div>
 	      </form>
       </div>
